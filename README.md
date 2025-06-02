@@ -105,7 +105,3 @@ Internship Machine Learning Challenge/
   "prediction": 1
 }
 ```
-
----
-
-> 🚀 Happy coding and good luck with your internship challenge!
