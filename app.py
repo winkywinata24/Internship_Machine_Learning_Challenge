@@ -5,8 +5,6 @@ import joblib
 from sklearn.ensemble import RandomForestClassifier
 
 app = Flask(__name__)
-
-# Load model (dilatih sebelumnya)
 model = joblib.load("models/random_forest_model.pkl")
 
 # ========== Endpoint: Health Check ==========
@@ -20,7 +18,6 @@ def predict():
     try:
         data = request.get_json()
 
-        # Ambil dan susun fitur
         features = [
             data["Pclass"],
             data["Sex"],
@@ -30,7 +27,6 @@ def predict():
             data["FamilySize"]
         ]
 
-        # Ubah jadi array dan prediksi
         prediction = model.predict([features])
         return jsonify({"prediction": int(prediction[0])})
     except Exception as e:
@@ -40,20 +36,16 @@ def predict():
 @app.route("/train", methods=["POST"])
 def train_model():
     try:
-        # Format data baru (harus JSON array of objects)
         data = request.get_json()
         df = pd.DataFrame(data, index=[0]) if isinstance(data, dict) else pd.DataFrame(data)
 
-        # Fitur dan target
         features = ['Pclass', 'Sex', 'Age', 'Fare', 'Embarked', 'FamilySize']
         X = df[features]
         y = df['Survived']
 
-        # Latih model baru
         new_model = RandomForestClassifier()
         new_model.fit(X, y)
 
-        # Simpan model baru
         joblib.dump(new_model, "models/random_forest_model.pkl")
         return jsonify({"status": "Model retrained and saved."}), 200
     except Exception as e:
