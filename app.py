@@ -42,7 +42,7 @@ def train_model():
         X = df[features]
         y = df['Survived']
 
-        new_model = RandomForestClassifier()
+        new_model = joblib.load("models/random_forest_model.pkl")
         new_model.fit(X, y)
 
         joblib.dump(new_model, "models/random_forest_model.pkl")
