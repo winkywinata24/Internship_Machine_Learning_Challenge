@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import joblib
-from sklearn.ensemble import RandomForestClassifier
 
 app = Flask(__name__)
 model = joblib.load("models/random_forest_model.pkl")
