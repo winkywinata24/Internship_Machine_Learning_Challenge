@@ -8,7 +8,10 @@ model = joblib.load("models/random_forest_model.pkl")
 # ========== Endpoint: Health Check ==========
 @app.route("/", methods=["GET"])
 def health_check():
-    return jsonify({"status": "API is running."}), 200
+    try:
+        return jsonify({"status": "API is running."}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # ========== Endpoint: Prediction ==========
 @app.route("/predict", methods=["POST"])
